@@ -1,0 +1,23 @@
+# Node modules
+node_modules/
+
+# dotenv environment variables file
+.env
+
+# Build output directory
+dist/
+
+# Local .vscode folder
+.vscode/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.idea/
+.DS_Store
+*.sublime-project
+*.sublime-workspace 
