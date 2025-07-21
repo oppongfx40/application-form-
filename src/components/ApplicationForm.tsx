@@ -61,7 +61,7 @@ interface ApplicationFormData {
   headShot1: string | null;
   headShot2: string | null;
   bodyShot1: string | null;
-  bodyShot2: string | null;
+  bodyShot2: string | null; // Corrected: This was the duplicate key
   additionalImage1: string | null;
   additionalImage2: string | null;
   countryOverview: string;
@@ -260,7 +260,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
     headShot1: null,
     headShot2: null,
     bodyShot1: null,
-    bodyShot1: null, // Corrected typo: should be bodyShot2
+    bodyShot2: null, // Corrected: This was the duplicate key, now properly bodyShot2
     additionalImage1: null,
     additionalImage2: null,
     countryOverview: '',
@@ -278,12 +278,11 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
   const [isSubmitting, setIsSubmitting] = useState(false);
   const formRef = useRef<HTMLDivElement>(null);
 
-  // Corrected typo in initial state for bodyShot1
+  // This useEffect was a temporary fix for the typo, no longer strictly needed
+  // but harmless to keep if you prefer. The initial state is now correct.
   useEffect(() => {
-    setFormData(prev => ({
-      ...prev,
-      bodyShot2: prev.bodyShot1 // If bodyShot1 was intended to be bodyShot2
-    }));
+    // If you had any logic here that relied on the previous typo, it's now redundant.
+    // Keeping it empty or removing it entirely is fine.
   }, []); // Run once on mount
 
   // Reset scroll position when changing sections
@@ -432,6 +431,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
           submittedAt: new Date().toISOString(), // Add submission timestamp
         };
 
+        // IMPORTANT: Replace 'http://localhost:5000' with your deployed backend URL from Render
         const response = await fetch('http://localhost:5000/api/submit-form', {
           method: 'POST',
           headers: {
