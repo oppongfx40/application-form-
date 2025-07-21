@@ -20,4 +20,7 @@ yarn-error.log*
 .idea/
 .DS_Store
 *.sublime-project
-*.sublime-workspace 
+*.sublime-workspace
+
+# Snapshots directory (often from testing or specific tools)
+/.snapshots/
