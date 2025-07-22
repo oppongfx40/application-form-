@@ -61,7 +61,7 @@ interface ApplicationFormData {
   headShot1: string | null;
   headShot2: string | null;
   bodyShot1: string | null;
-  bodyShot2: string | null; // CORRECTED LINE: This was the duplicate key
+  bodyShot2: string | null; // THIS IS THE CORRECTED LINE: from duplicate bodyShot1 to bodyShot2
   additionalImage1: string | null;
   additionalImage2: string | null;
   countryOverview: string;
