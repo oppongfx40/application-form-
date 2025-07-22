@@ -61,7 +61,7 @@ interface ApplicationFormData {
   headShot1: string | null;
   headShot2: string | null;
   bodyShot1: string | null;
-  bodyShot2: string | null; // Corrected: This was the duplicate key
+  bodyShot2: string | null; // CORRECTED LINE: This was the duplicate key
   additionalImage1: string | null;
   additionalImage2: string | null;
   countryOverview: string;
@@ -256,11 +256,11 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
     pageantExperience: '',
     charity: '',
     hearAboutUs: '',
-    // Initialize image fields as null strings
+    // Initialize image fields as null strings - THIS BLOCK IS NOW CORRECTED
     headShot1: null,
     headShot2: null,
     bodyShot1: null,
-    bodyShot2: null, // Corrected: This was the duplicate key, now properly bodyShot2
+    bodyShot2: null, // Corrected from duplicate bodyShot1 to bodyShot2
     additionalImage1: null,
     additionalImage2: null,
     countryOverview: '',

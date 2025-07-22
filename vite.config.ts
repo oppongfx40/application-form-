@@ -4,17 +4,19 @@ import react from '@vitejs/plugin-react';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  // This helps Vite pre-bundle 'react-paystack' correctly,
-  // resolving the import issue during Netlify build.
+  // `optimizeDeps.include` helps with development server performance.
+  // `build.rollupOptions.external` is crucial for production builds on Netlify
+  // to correctly handle modules that Rollup might struggle to bundle.
   optimizeDeps: {
     include: ['react-paystack'],
   },
   build: {
-    // Optional: If 'optimizeDeps' doesn't fully resolve it,
-    // you might need to explicitly externalize it, but try `optimizeDeps` first.
-    // rollupOptions: {
-    //   external: ['react-paystack'],
-    // },
+    rollupOptions: {
+      // Explicitly externalize 'react-paystack' as suggested by Netlify's error.
+      // This tells Rollup (Vite's bundler) not to try and bundle this module,
+      // assuming it will be available at runtime (e.g., from node_modules).
+      external: ['react-paystack'],
+    },
   },
   server: {
     host: true, // This makes the server accessible externally (useful for Docker/VMs)
