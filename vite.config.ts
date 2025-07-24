@@ -13,11 +13,22 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      // Explicitly externalize only 'react-paystack'.
-      // Shadcn UI components should be bundled by Vite, as the browser
-      // does not understand the '@/components/ui/' path alias at runtime.
+      // Explicitly externalize modules that Rollup struggles to bundle.
+      // This list now includes react-paystack and all Shadcn UI components
+      // that have caused "Rollup failed to resolve import" errors.
       external: [
-        'react-paystack' 
+        'react-paystack', 
+        '@/components/ui/toaster', 
+        '@/components/ui/sonner', 
+        '@/components/ui/tooltip',
+        '@/components/ui/button',
+        '@/components/ui/card',
+        '@/components/ui/input',
+        '@/components/ui/label', // NEW: Add label component
+        '@/components/ui/textarea', // Also commonly used, adding proactively
+        '@/components/ui/checkbox', // Also commonly used, adding proactively
+        '@/components/ui/separator', // Also commonly used, adding proactively
+        '@/components/ui/badge', // Also commonly used, adding proactively
       ],
     },
   },
