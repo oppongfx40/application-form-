@@ -13,10 +13,9 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      // Explicitly externalize 'react-paystack' as suggested by Netlify's error.
-      // This tells Rollup (Vite's bundler) not to try and bundle this module,
-      // assuming it will be available at runtime (e.g., from node_modules).
-      external: ['react-paystack'],
+      // Explicitly externalize modules that Rollup struggles to bundle.
+      // We now include 'react-paystack' and the shadcn 'toaster' component.
+      external: ['react-paystack', '@/components/ui/toaster'],
     },
   },
   server: {
