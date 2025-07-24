@@ -14,8 +14,8 @@ export default defineConfig({
   build: {
     rollupOptions: {
       // Explicitly externalize modules that Rollup struggles to bundle.
-      // We now include 'react-paystack' and the shadcn 'toaster' component.
-      external: ['react-paystack', '@/components/ui/toaster'],
+      // We now include 'react-paystack', the shadcn 'toaster', and 'sonner' components.
+      external: ['react-paystack', '@/components/ui/toaster', '@/components/ui/sonner'],
     },
   },
   server: {
