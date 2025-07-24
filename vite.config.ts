@@ -14,14 +14,15 @@ export default defineConfig({
   build: {
     rollupOptions: {
       // Explicitly externalize modules that Rollup struggles to bundle.
-      // We now include 'react-paystack', 'toaster', 'sonner', 'tooltip', 'button', and 'card' components.
+      // We now include 'react-paystack', 'toaster', 'sonner', 'tooltip', 'button', 'card', and 'input' components.
       external: [
         'react-paystack', 
         '@/components/ui/toaster', 
         '@/components/ui/sonner', 
         '@/components/ui/tooltip',
         '@/components/ui/button',
-        '@/components/ui/card' // NEW: Add card component
+        '@/components/ui/card',
+        '@/components/ui/input' // NEW: Add input component
       ],
     },
   },
