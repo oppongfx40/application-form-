@@ -1,7 +1,7 @@
-// Force rebuild: 2025-07-24 03:59 AM // Updated timestamp
+// Force rebuild: 2025-07-24 04:37 AM // Updated timestamp
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Index from './pages/index.tsx'; // *** FIXED: Added .tsx extension ***
+import Index from './pages/Index.tsx'; // *** FIXED: Changed 'index.tsx' to 'Index.tsx' (capital 'I') ***
 import NotFound from './pages/NotFound'; // Keep NotFound for any unhandled routes
 
 function App() {
