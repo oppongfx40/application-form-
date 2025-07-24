@@ -109,7 +109,8 @@ const DirectorApplicationForm: React.FC<DirectorApplicationFormProps> = ({
     console.log("Form submitted:", data); // This log will still appear in frontend console
 
     try {
-      const response = await fetch('http://localhost:5000/api/submit-form', {
+      // CORRECTED URL HERE:
+      const response = await fetch('https://miss-bloom-backend.onrender.com/api/submit-form', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

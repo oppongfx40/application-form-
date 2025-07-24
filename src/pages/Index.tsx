@@ -33,7 +33,7 @@ const Index = () => {
 
   // Callback for when either application form is successfully submitted (leads to payment)
   const handleApplicationFormSubmitted = () => {
-    setTimeout(() => setCurrentView('payment'), 0); // Defer state update
+    setTimeout(() => setCurrentView('payment'), 0); // Defer state update - This will lead to the PaymentForm
   };
 
   // Callback for when payment is successful
