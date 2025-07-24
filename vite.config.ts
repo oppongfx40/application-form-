@@ -15,16 +15,16 @@ export default defineConfig({
   },
   // `optimizeDeps.include` helps with development server performance.
   optimizeDeps: {
+    // Keep react-paystack here for optimization during development,
+    // but it will now be bundled in production.
     include: ['react-paystack'],
   },
   build: {
     rollupOptions: {
-      // Explicitly externalize ONLY 'react-paystack'.
-      // All Shadcn UI components (e.g., @/components/ui/toaster) should now
-      // be correctly bundled by Vite due to the 'resolve.alias' configuration.
-      external: [
-        'react-paystack' 
-      ],
+      // The 'external' array should now be empty or contain only truly external libraries
+      // that are not meant to be bundled (e.g., if you were loading React from a CDN).
+      // For react-paystack, we want it bundled into your app.
+      external: [], // NEW: Empty the external array
     },
   },
   server: {
