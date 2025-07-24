@@ -14,7 +14,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       // Explicitly externalize modules that Rollup struggles to bundle.
-      // This list now includes react-paystack and all Shadcn UI components
+      // This list now includes react-paystack and ALL Shadcn UI components
       // that have caused "Rollup failed to resolve import" errors.
       external: [
         'react-paystack', 
@@ -24,11 +24,12 @@ export default defineConfig({
         '@/components/ui/button',
         '@/components/ui/card',
         '@/components/ui/input',
-        '@/components/ui/label', // NEW: Add label component
-        '@/components/ui/textarea', // Also commonly used, adding proactively
-        '@/components/ui/checkbox', // Also commonly used, adding proactively
-        '@/components/ui/separator', // Also commonly used, adding proactively
-        '@/components/ui/badge', // Also commonly used, adding proactively
+        '@/components/ui/label', // Added in previous step
+        '@/components/ui/textarea', // Proactively added
+        '@/components/ui/checkbox', // Proactively added
+        '@/components/ui/separator', // Proactively added
+        '@/components/ui/badge', // Proactively added
+        '@/components/ui/form' // NEW: Add form component
       ],
     },
   },
