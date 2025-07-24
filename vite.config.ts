@@ -13,11 +13,11 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      // Explicitly externalize modules that Rollup struggles to bundle.
-      // We now include 'react-paystack' and a wildcard for all Shadcn UI components.
+      // Explicitly externalize only 'react-paystack'.
+      // Shadcn UI components should be bundled by Vite, as the browser
+      // does not understand the '@/components/ui/' path alias at runtime.
       external: [
-        'react-paystack', 
-        /^@\/components\/ui\/.*/ // NEW: This regex will match all Shadcn UI components
+        'react-paystack' 
       ],
     },
   },
