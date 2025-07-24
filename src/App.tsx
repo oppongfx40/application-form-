@@ -1,28 +1,32 @@
+    // Force rebuild: 2025-07-24 03:20 AM // Add this line, or similar
+    import React from 'react';
+    import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+    import ApplicationForm from './components/ApplicationForm';
+    import SuccessPage from './components/SuccessPage';
+    import NotFound from './pages/NotFound'; // Assuming you have a NotFound page
+    import { Toaster } from "@/components/ui/sonner"; // Assuming you use sonner for toasts
 
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
+    function App() {
+      // Logic for handling form submission success and navigation
+      const handleApplicationSuccess = () => {
+        // You might want to navigate to the success page here
+        // For now, we'll just log it.
+        console.log("Application successful! Navigating to success page.");
+        // Example: window.location.href = "/success"; // Or use router navigation
+      };
 
-const queryClient = new QueryClient();
+      return (
+        <div className="min-h-screen bg-bloom-background text-bloom-text flex items-center justify-center p-4">
+          <Router>
+            <Routes>
+              <Route path="/" element={<ApplicationForm onSubmitSuccess={handleApplicationSuccess} onBack={() => { /* Implement back logic if needed */ }} />} />
+              <Route path="/success" element={<SuccessPage />} />
+              <Route path="*" element={<NotFound />} /> {/* Catch-all for undefined routes */}
+            </Routes>
+          </Router>
+          <Toaster richColors /> {/* For displaying toasts */}
+        </div>
+      );
+    }
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
-
-export default App;
+    export default App;
