@@ -1,35 +1,29 @@
 import { defineConfig } from 'vite';
-// Corrected import: Use the SWC version of the React plugin
 import react from '@vitejs/plugin-react-swc'; 
+import path from 'path'; // Import 'path' module for path resolution
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  // Explicitly define path aliases for Vite's resolver
+  resolve: {
+    alias: {
+      // Map '@' to the 'src' directory. This tells Vite how to resolve
+      // imports like "@/components/ui/button" to "./src/components/ui/button".
+      '@': path.resolve(__dirname, './src'), 
+    },
+  },
   // `optimizeDeps.include` helps with development server performance.
-  // `build.rollupOptions.external` is crucial for production builds on Netlify
-  // to correctly handle modules that Rollup might struggle to bundle.
   optimizeDeps: {
     include: ['react-paystack'],
   },
   build: {
     rollupOptions: {
-      // Explicitly externalize modules that Rollup struggles to bundle.
-      // This list now includes react-paystack and ALL Shadcn UI components
-      // that have caused "Rollup failed to resolve import" errors.
+      // Explicitly externalize ONLY 'react-paystack'.
+      // All Shadcn UI components (e.g., @/components/ui/toaster) should now
+      // be correctly bundled by Vite due to the 'resolve.alias' configuration.
       external: [
-        'react-paystack', 
-        '@/components/ui/toaster', 
-        '@/components/ui/sonner', 
-        '@/components/ui/tooltip',
-        '@/components/ui/button',
-        '@/components/ui/card',
-        '@/components/ui/input',
-        '@/components/ui/label', // Added in previous step
-        '@/components/ui/textarea', // Proactively added
-        '@/components/ui/checkbox', // Proactively added
-        '@/components/ui/separator', // Proactively added
-        '@/components/ui/badge', // Proactively added
-        '@/components/ui/form' // NEW: Add form component
+        'react-paystack' 
       ],
     },
   },
