@@ -280,10 +280,8 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
 
   // This useEffect was a temporary fix for the typo, no longer strictly needed
   // but harmless to keep if you prefer. The initial state is now correct.
-  useEffect(() => {
-    // If you had any logic here that relied on the previous typo, it's now redundant.
-    // Keeping it empty or removing it entirely is fine.
-  }, []); // Run once on mount
+  // Keeping it empty or removing it entirely is fine.
+  useEffect(() => {}, []); // Run once on mount
 
   // Reset scroll position when changing sections
   useEffect(() => {
@@ -431,8 +429,8 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
           submittedAt: new Date().toISOString(), // Add submission timestamp
         };
 
-        // IMPORTANT: Replace 'http://localhost:5000' with your deployed backend URL from Render
-        const response = await fetch('http://localhost:5000/api/submit-form', {
+        // IMPORTANT: Updated to your deployed Render backend URL
+        const response = await fetch('https://miss-bloom-backend.onrender.com/api/submit-form', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -756,15 +754,13 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
               </div>
             </div>
           )}
-          
+
           {/* Contact Information Section */}
           {currentSection === 'contact' && (
             <div className="space-y-6 animate-fade-in">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="firstName" className={`${hasError('firstName') ? 'text-destructive' : ''}`}>
-                    First Name*
-                  </Label>
+                  <Label htmlFor="firstName" className={`${hasError('firstName') ? 'text-destructive' : ''}`}>First Name*</Label>
                   <Input
                     id="firstName"
                     value={formData.firstName}
@@ -773,15 +769,10 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
                     onBlur={() => setFocused(null)}
                     className={`transition-all ${focused === 'firstName' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''} ${hasError('firstName') ? 'border-destructive' : ''}`}
                   />
-                  {getErrorMessage('firstName') && (
-                    <p className="text-xs text-destructive">{getErrorMessage('firstName')}</p>
-                  )}
+                  {getErrorMessage('firstName') && <p className="text-xs text-destructive">{getErrorMessage('firstName')}</p>}
                 </div>
-                
                 <div className="space-y-2">
-                  <Label htmlFor="middleName">
-                    Middle Name
-                  </Label>
+                  <Label htmlFor="middleName">Middle Name</Label>
                   <Input
                     id="middleName"
                     value={formData.middleName}
@@ -791,67 +782,55 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
                     className={`transition-all ${focused === 'middleName' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''}`}
                   />
                 </div>
+                <div className="space-y-2">
+                  <Label htmlFor="lastName" className={`${hasError('lastName') ? 'text-destructive' : ''}`}>Last Name*</Label>
+                  <Input
+                    id="lastName"
+                    value={formData.lastName}
+                    onChange={(e) => handleFieldChange('lastName', e.target.value)}
+                    onFocus={() => setFocused('lastName')}
+                    onBlur={() => setFocused(null)}
+                    className={`transition-all ${focused === 'lastName' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''} ${hasError('lastName') ? 'border-destructive' : ''}`}
+                  />
+                  {getErrorMessage('lastName') && <p className="text-xs text-destructive">{getErrorMessage('lastName')}</p>}
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="fullName">Full Name (Auto-generated)</Label>
+                  <Input id="fullName" value={formData.fullName} readOnly className="bg-gray-100 text-gray-500" />
+                </div>
               </div>
-              
-              <div className="space-y-2">
-                <Label htmlFor="lastName" className={`${hasError('lastName') ? 'text-destructive' : ''}`}>
-                  Last Name*
-                </Label>
-                <Input
-                  id="lastName"
-                  value={formData.lastName}
-                  onChange={(e) => handleFieldChange('lastName', e.target.value)}
-                  onFocus={() => setFocused('lastName')}
-                  onBlur={() => setFocused(null)}
-                  className={`transition-all ${focused === 'lastName' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''} ${hasError('lastName') ? 'border-destructive' : ''}`}
-                />
-                {getErrorMessage('lastName') && (
-                  <p className="text-xs text-destructive">{getErrorMessage('lastName')}</p>
-                )}
-              </div>
-              
-              <div className="space-y-2">
-                <Label htmlFor="email" className={`${hasError('email') ? 'text-destructive' : ''}`}>
-                  Email Address*
-                </Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => handleFieldChange('email', e.target.value)}
-                  onFocus={() => setFocused('email')}
-                  onBlur={() => setFocused(null)}
-                  className={`transition-all ${focused === 'email' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''} ${hasError('email') ? 'border-destructive' : ''}`}
-                />
-                {getErrorMessage('email') && (
-                  <p className="text-xs text-destructive">{getErrorMessage('email')}</p>
-                )}
-              </div>
-              
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="phone" className={`${hasError('phone') ? 'text-destructive' : ''}`}>
-                    Cell Phone*
-                  </Label>
+                  <Label htmlFor="email" className={`${hasError('email') ? 'text-destructive' : ''}`}>Email*</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => handleFieldChange('email', e.target.value)}
+                    onFocus={() => setFocused('email')}
+                    onBlur={() => setFocused(null)}
+                    className={`transition-all ${focused === 'email' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''} ${hasError('email') ? 'border-destructive' : ''}`}
+                  />
+                  {getErrorMessage('email') && <p className="text-xs text-destructive">{getErrorMessage('email')}</p>}
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="phone" className={`${hasError('phone') ? 'text-destructive' : ''}`}>Cell Phone*</Label>
                   <Input
                     id="phone"
+                    type="tel"
                     value={formData.phone}
                     onChange={(e) => handleFieldChange('phone', e.target.value)}
                     onFocus={() => setFocused('phone')}
                     onBlur={() => setFocused(null)}
                     className={`transition-all ${focused === 'phone' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''} ${hasError('phone') ? 'border-destructive' : ''}`}
                   />
-                  {getErrorMessage('phone') && (
-                    <p className="text-xs text-destructive">{getErrorMessage('phone')}</p>
-                  )}
+                  {getErrorMessage('phone') && <p className="text-xs text-destructive">{getErrorMessage('phone')}</p>}
                 </div>
-                
                 <div className="space-y-2">
-                  <Label htmlFor="homePhone">
-                    Home Phone
-                  </Label>
+                  <Label htmlFor="homePhone">Home Phone</Label>
                   <Input
                     id="homePhone"
+                    type="tel"
                     value={formData.homePhone}
                     onChange={(e) => handleFieldChange('homePhone', e.target.value)}
                     onFocus={() => setFocused('homePhone')}
@@ -860,11 +839,34 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
                   />
                 </div>
               </div>
-              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="country" className={`${hasError('country') ? 'text-destructive' : ''}`}>Country*</Label>
+                  <Input
+                    id="country"
+                    value={formData.country}
+                    onChange={(e) => handleFieldChange('country', e.target.value)}
+                    onFocus={() => setFocused('country')}
+                    onBlur={() => setFocused(null)}
+                    className={`transition-all ${focused === 'country' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''} ${hasError('country') ? 'border-destructive' : ''}`}
+                  />
+                  {getErrorMessage('country') && <p className="text-xs text-destructive">{getErrorMessage('country')}</p>}
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="city" className={`${hasError('city') ? 'text-destructive' : ''}`}>City*</Label>
+                  <Input
+                    id="city"
+                    value={formData.city}
+                    onChange={(e) => handleFieldChange('city', e.target.value)}
+                    onFocus={() => setFocused('city')}
+                    onBlur={() => setFocused(null)}
+                    className={`transition-all ${focused === 'city' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''} ${hasError('city') ? 'border-destructive' : ''}`}
+                  />
+                  {getErrorMessage('city') && <p className="text-xs text-destructive">{getErrorMessage('city')}</p>}
+                </div>
+              </div>
               <div className="space-y-2">
-                <Label htmlFor="street">
-                  Street Address
-                </Label>
+                <Label htmlFor="street">Street Address</Label>
                 <Input
                   id="street"
                   value={formData.street}
@@ -874,11 +876,8 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
                   className={`transition-all ${focused === 'street' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''}`}
                 />
               </div>
-              
               <div className="space-y-2">
-                <Label htmlFor="addressLine2">
-                  Address Line 2
-                </Label>
+                <Label htmlFor="addressLine2">Address Line 2</Label>
                 <Input
                   id="addressLine2"
                   value={formData.addressLine2}
@@ -888,26 +887,9 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
                   className={`transition-all ${focused === 'addressLine2' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''}`}
                 />
               </div>
-              
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="city">
-                    City
-                  </Label>
-                  <Input
-                    id="city"
-                    value={formData.city}
-                    onChange={(e) => handleFieldChange('city', e.target.value)}
-                    onFocus={() => setFocused('city')}
-                    onBlur={() => setFocused(null)}
-                    className={`transition-all ${focused === 'city' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''}`}
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="stateRegion">
-                    State/Region
-                  </Label>
+                  <Label htmlFor="stateRegion">State/Region</Label>
                   <Input
                     id="stateRegion"
                     value={formData.stateRegion}
@@ -917,13 +899,8 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
                     className={`transition-all ${focused === 'stateRegion' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''}`}
                   />
                 </div>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="zipCode">
-                    Zip/Postal Code
-                  </Label>
+                  <Label htmlFor="zipCode">Zip/Postal Code</Label>
                   <Input
                     id="zipCode"
                     value={formData.zipCode}
@@ -933,67 +910,39 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
                     className={`transition-all ${focused === 'zipCode' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''}`}
                   />
                 </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="country" className={`${hasError('country') ? 'text-destructive' : ''}`}>
-                    Country*
-                  </Label>
-                  <Input
-                    id="country"
-                    value={formData.country}
-                    onChange={(e) => handleFieldChange('country', e.target.value)}
-                    onFocus={() => setFocused('country')}
-                    onBlur={() => setFocused(null)}
-                    className={`transition-all ${focused === 'country' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''} ${hasError('country') ? 'border-destructive' : ''}`}
-                  />
-                  {getErrorMessage('country') && (
-                    <p className="text-xs text-destructive">{getErrorMessage('country')}</p>
-                  )}
-                </div>
               </div>
             </div>
           )}
-          
+
           {/* Personal Details Section */}
           {currentSection === 'personal' && (
             <div className="space-y-6 animate-fade-in">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="ethnicity">
-                    Ethnicity
-                  </Label>
-                  <Input
-                    id="ethnicity"
-                    value={formData.ethnicity}
-                    onChange={(e) => handleFieldChange('ethnicity', e.target.value)}
-                    onFocus={() => setFocused('ethnicity')}
-                    onBlur={() => setFocused(null)}
-                    className={`transition-all ${focused === 'ethnicity' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''}`}
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="representCountry" className={`${hasError('representCountry') ? 'text-destructive' : ''}`}>
-                    Country You Represent*
-                  </Label>
-                  <Input
-                    id="representCountry"
-                    value={formData.representCountry}
-                    onChange={(e) => handleFieldChange('representCountry', e.target.value)}
-                    onFocus={() => setFocused('representCountry')}
-                    onBlur={() => setFocused(null)}
-                    className={`transition-all ${focused === 'representCountry' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''} ${hasError('representCountry') ? 'border-destructive' : ''}`}
-                  />
-                  {getErrorMessage('representCountry') && (
-                    <p className="text-xs text-destructive">{getErrorMessage('representCountry')}</p>
-                  )}
-                </div>
-              </div>
-              
               <div className="space-y-2">
-                <Label htmlFor="alternateCountry">
-                  Alternate Country (Optional)
-                </Label>
+                <Label htmlFor="ethnicity" className={`${hasError('ethnicity') ? 'text-destructive' : ''}`}>Ethnicity*</Label>
+                <Input
+                  id="ethnicity"
+                  value={formData.ethnicity}
+                  onChange={(e) => handleFieldChange('ethnicity', e.target.value)}
+                  onFocus={() => setFocused('ethnicity')}
+                  onBlur={() => setFocused(null)}
+                  className={`transition-all ${focused === 'ethnicity' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''} ${hasError('ethnicity') ? 'border-destructive' : ''}`}
+                />
+                {getErrorMessage('ethnicity') && <p className="text-xs text-destructive">{getErrorMessage('ethnicity')}</p>}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="representCountry" className={`${hasError('representCountry') ? 'text-destructive' : ''}`}>Country to Represent*</Label>
+                <Input
+                  id="representCountry"
+                  value={formData.representCountry}
+                  onChange={(e) => handleFieldChange('representCountry', e.target.value)}
+                  onFocus={() => setFocused('representCountry')}
+                  onBlur={() => setFocused(null)}
+                  className={`transition-all ${focused === 'representCountry' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''} ${hasError('representCountry') ? 'border-destructive' : ''}`}
+                />
+                {getErrorMessage('representCountry') && <p className="text-xs text-destructive">{getErrorMessage('representCountry')}</p>}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="alternateCountry">Alternate Country (Optional)</Label>
                 <Input
                   id="alternateCountry"
                   value={formData.alternateCountry}
@@ -1003,8 +952,8 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
                   className={`transition-all ${focused === 'alternateCountry' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''}`}
                 />
               </div>
-              
-              <h3 className="text-lg font-medium text-bloom-primary mt-8 mb-4">Measurements (Optional)</h3>
+              <Separator />
+              <h3 className="font-medium text-lg">Measurements (Optional)</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="height">Height (e.g., 5'7" or 170cm)</Label>
@@ -1018,7 +967,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="weight">Weight (e.g., 120 lbs or 54 kg)</Label>
+                  <Label htmlFor="weight">Weight (e.g., 120 lbs or 54kg)</Label>
                   <Input
                     id="weight"
                     value={formData.weight}
@@ -1028,9 +977,6 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
                     className={`transition-all ${focused === 'weight' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''}`}
                   />
                 </div>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="bust">Bust (inches/cm)</Label>
                   <Input
@@ -1064,9 +1010,6 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
                     className={`transition-all ${focused === 'hips' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''}`}
                   />
                 </div>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="dressSize">Dress Size</Label>
                   <Input
@@ -1089,9 +1032,6 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
                     className={`transition-all ${focused === 'shoeSize' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''}`}
                   />
                 </div>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="swimsuitSizeTop">Swimsuit Size (Top)</Label>
                   <Input
@@ -1117,12 +1057,12 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
               </div>
             </div>
           )}
-          
+
           {/* Background & Experience Section */}
           {currentSection === 'background' && (
             <div className="space-y-6 animate-fade-in">
               <div className="space-y-2">
-                <Label htmlFor="schoolAttended">School(s) Attended</Label>
+                <Label htmlFor="schoolAttended">School Attended</Label>
                 <Input
                   id="schoolAttended"
                   value={formData.schoolAttended}
@@ -1144,7 +1084,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="highestEducation">Highest Level of Education</Label>
+                <Label htmlFor="highestEducation">Highest Education</Label>
                 <Input
                   id="highestEducation"
                   value={formData.highestEducation}
@@ -1155,9 +1095,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="experience" className={`${hasError('experience') ? 'text-destructive' : ''}`}>
-                  Work Experience*
-                </Label>
+                <Label htmlFor="experience" className={`${hasError('experience') ? 'text-destructive' : ''}`}>Work Experience*</Label>
                 <Textarea
                   id="experience"
                   value={formData.experience}
@@ -1166,14 +1104,10 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
                   onBlur={() => setFocused(null)}
                   className={`min-h-[100px] transition-all ${focused === 'experience' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''} ${hasError('experience') ? 'border-destructive' : ''}`}
                 />
-                {getErrorMessage('experience') && (
-                  <p className="text-xs text-destructive">{getErrorMessage('experience')}</p>
-                )}
+                {getErrorMessage('experience') && <p className="text-xs text-destructive">{getErrorMessage('experience')}</p>}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="education" className={`${hasError('education') ? 'text-destructive' : ''}`}>
-                  Education & Qualifications*
-                </Label>
+                <Label htmlFor="education" className={`${hasError('education') ? 'text-destructive' : ''}`}>Education*</Label>
                 <Textarea
                   id="education"
                   value={formData.education}
@@ -1182,14 +1116,10 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
                   onBlur={() => setFocused(null)}
                   className={`min-h-[100px] transition-all ${focused === 'education' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''} ${hasError('education') ? 'border-destructive' : ''}`}
                 />
-                {getErrorMessage('education') && (
-                  <p className="text-xs text-destructive">{getErrorMessage('education')}</p>
-                )}
+                {getErrorMessage('education') && <p className="text-xs text-destructive">{getErrorMessage('education')}</p>}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="skills" className={`${hasError('skills') ? 'text-destructive' : ''}`}>
-                  Skills*
-                </Label>
+                <Label htmlFor="skills" className={`${hasError('skills') ? 'text-destructive' : ''}`}>Skills*</Label>
                 <Textarea
                   id="skills"
                   value={formData.skills}
@@ -1198,20 +1128,16 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
                   onBlur={() => setFocused(null)}
                   className={`min-h-[100px] transition-all ${focused === 'skills' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''} ${hasError('skills') ? 'border-destructive' : ''}`}
                 />
-                {getErrorMessage('skills') && (
-                  <p className="text-xs text-destructive">{getErrorMessage('skills')}</p>
-                )}
+                {getErrorMessage('skills') && <p className="text-xs text-destructive">{getErrorMessage('skills')}</p>}
               </div>
             </div>
           )}
-          
+
           {/* Motivation & Goals Section */}
           {currentSection === 'motivation' && (
             <div className="space-y-6 animate-fade-in">
               <div className="space-y-2">
-                <Label htmlFor="motivation" className={`${hasError('motivation') ? 'text-destructive' : ''}`}>
-                  Motivation* (Min 20 words, Max 500 words)
-                </Label>
+                <Label htmlFor="motivation" className={`${hasError('motivation') ? 'text-destructive' : ''}`}>Why do you want to join Miss Bloom Global? (20-500 words)*</Label>
                 <Textarea
                   id="motivation"
                   value={formData.motivation}
@@ -1220,18 +1146,11 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
                   onBlur={() => setFocused(null)}
                   className={`min-h-[150px] transition-all ${focused === 'motivation' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''} ${hasError('motivation') ? 'border-destructive' : ''}`}
                 />
-                <div className="text-xs text-bloom-muted mt-1">
-                  Words: {countWords(formData.motivation)}/500
-                </div>
-                {getErrorMessage('motivation') && (
-                  <p className="text-xs text-destructive">{getErrorMessage('motivation')}</p>
-                )}
+                <p className="text-xs text-gray-500">{countWords(formData.motivation)} / 500 words</p>
+                {getErrorMessage('motivation') && <p className="text-xs text-destructive">{getErrorMessage('motivation')}</p>}
               </div>
-              
               <div className="space-y-2">
-                <Label htmlFor="goals" className={`${hasError('goals') ? 'text-destructive' : ''}`}>
-                  Goals* (Min 20 words, Max 500 words)
-                </Label>
+                <Label htmlFor="goals" className={`${hasError('goals') ? 'text-destructive' : ''}`}>What are your personal and professional goals? (20-500 words)*</Label>
                 <Textarea
                   id="goals"
                   value={formData.goals}
@@ -1240,23 +1159,17 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
                   onBlur={() => setFocused(null)}
                   className={`min-h-[150px] transition-all ${focused === 'goals' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''} ${hasError('goals') ? 'border-destructive' : ''}`}
                 />
-                <div className="text-xs text-bloom-muted mt-1">
-                  Words: {countWords(formData.goals)}/500
-                </div>
-                {getErrorMessage('goals') && (
-                  <p className="text-xs text-destructive">{getErrorMessage('goals')}</p>
-                )}
+                <p className="text-xs text-gray-500">{countWords(formData.goals)} / 500 words</p>
+                {getErrorMessage('goals') && <p className="text-xs text-destructive">{getErrorMessage('goals')}</p>}
               </div>
             </div>
           )}
-          
+
           {/* Business Plan Section */}
           {currentSection === 'business' && (
             <div className="space-y-6 animate-fade-in">
               <div className="space-y-2">
-                <Label htmlFor="strategy" className={`${hasError('strategy') ? 'text-destructive' : ''}`}>
-                  Promotion Strategy* (Min 50 words, Max 1000 words)
-                </Label>
+                <Label htmlFor="strategy" className={`${hasError('strategy') ? 'text-destructive' : ''}`}>Outline your strategy to promote Miss Bloom Global and its values. (50-1000 words)*</Label>
                 <Textarea
                   id="strategy"
                   value={formData.strategy}
@@ -1265,148 +1178,200 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
                   onBlur={() => setFocused(null)}
                   className={`min-h-[200px] transition-all ${focused === 'strategy' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''} ${hasError('strategy') ? 'border-destructive' : ''}`}
                 />
-                <div className="text-xs text-bloom-muted mt-1">
-                  Words: {countWords(formData.strategy)}/1000
-                </div>
-                {getErrorMessage('strategy') && (
-                  <p className="text-xs text-destructive">{getErrorMessage('strategy')}</p>
-                )}
+                <p className="text-xs text-gray-500">{countWords(formData.strategy)} / 1000 words</p>
+                {getErrorMessage('strategy') && <p className="text-xs text-destructive">{getErrorMessage('strategy')}</p>}
               </div>
             </div>
           )}
-          
+
           {/* Photos Section */}
           {currentSection === 'photos' && (
             <div className="space-y-6 animate-fade-in">
-              <p className="text-sm text-bloom-muted mb-4">
-                Please upload high-quality photos (Max 2MB per image). Required fields are marked with an asterisk (*).
-              </p>
-              
+              <div className="bg-bloom-accent/30 p-4 rounded-md mb-6">
+                <h3 className="font-medium text-lg mb-2">Photo Requirements</h3>
+                <ul className="list-disc pl-5 text-sm space-y-1">
+                  <li>Minimum 2 photos required (1 Head Shot, 1 Body Shot).</li>
+                  <li>Photos should be professional and high-resolution.</li>
+                  <li>File size limit: 2MB per photo.</li>
+                  <li>Accepted formats: JPG, PNG.</li>
+                  <li>Ensure good lighting and clear focus.</li>
+                </ul>
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Head Shot 1 */}
                 <div className="space-y-2">
-                  <Label htmlFor="headShot1" className={`${hasError('headShot1') ? 'text-destructive' : ''}`}>
-                    Head Shot 1*
-                  </Label>
-                  <Input
-                    id="headShot1"
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => handleFileChange('headShot1', e.target.files)}
-                    className={hasError('headShot1') ? 'border-destructive' : ''}
-                  />
-                  {formData.headShot1 && (
-                    <p className="text-xs text-bloom-muted">File selected (Base64)</p>
-                  )}
-                  {getErrorMessage('headShot1') && (
-                    <p className="text-xs text-destructive">{getErrorMessage('headShot1')}</p>
-                  )}
+                  <Label htmlFor="headShot1" className={`${hasError('headShot1') ? 'text-destructive' : ''}`}>Head Shot 1*</Label>
+                  <div className={`flex items-center justify-center w-full h-48 border-2 border-dashed rounded-md cursor-pointer bg-gray-50 hover:bg-gray-100 transition-all ${hasError('headShot1') ? 'border-destructive' : ''}`}>
+                    <label htmlFor="headShot1" className="flex flex-col items-center justify-center w-full h-full cursor-pointer">
+                      {formData.headShot1 ? (
+                        <img src={formData.headShot1} alt="Head Shot 1 Preview" className="max-h-full max-w-full object-contain rounded-md" />
+                      ) : (
+                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                          <Upload className="w-8 h-8 mb-3 text-gray-400" />
+                          <p className="mb-2 text-sm text-gray-500"><span className="font-semibold">Click to upload</span> or drag and drop</p>
+                          <p className="text-xs text-gray-500">JPG, PNG (MAX. 2MB)</p>
+                        </div>
+                      )}
+                      <input
+                        id="headShot1"
+                        type="file"
+                        className="hidden"
+                        accept="image/jpeg,image/png"
+                        onChange={(e) => handleFileChange('headShot1', e.target.files)}
+                      />
+                    </label>
+                  </div>
+                  {getErrorMessage('headShot1') && <p className="text-xs text-destructive">{getErrorMessage('headShot1')}</p>}
                 </div>
-                
-                {/* Head Shot 2 */}
+
+                {/* Head Shot 2 (Optional) */}
                 <div className="space-y-2">
-                  <Label htmlFor="headShot2">
-                    Head Shot 2 (Optional)
-                  </Label>
-                  <Input
-                    id="headShot2"
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => handleFileChange('headShot2', e.target.files)}
-                  />
-                  {formData.headShot2 && (
-                    <p className="text-xs text-bloom-muted">File selected (Base64)</p>
-                  )}
+                  <Label htmlFor="headShot2">Head Shot 2 (Optional)</Label>
+                  <div className="flex items-center justify-center w-full h-48 border-2 border-dashed rounded-md cursor-pointer bg-gray-50 hover:bg-gray-100 transition-all">
+                    <label htmlFor="headShot2" className="flex flex-col items-center justify-center w-full h-full cursor-pointer">
+                      {formData.headShot2 ? (
+                        <img src={formData.headShot2} alt="Head Shot 2 Preview" className="max-h-full max-w-full object-contain rounded-md" />
+                      ) : (
+                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                          <Upload className="w-8 h-8 mb-3 text-gray-400" />
+                          <p className="mb-2 text-sm text-gray-500"><span className="font-semibold">Click to upload</span> or drag and drop</p>
+                          <p className="text-xs text-gray-500">JPG, PNG (MAX. 2MB)</p>
+                        </div>
+                      )}
+                      <input
+                        id="headShot2"
+                        type="file"
+                        className="hidden"
+                        accept="image/jpeg,image/png"
+                        onChange={(e) => handleFileChange('headShot2', e.target.files)}
+                      />
+                    </label>
+                  </div>
                 </div>
-                
+
                 {/* Body Shot 1 */}
                 <div className="space-y-2">
-                  <Label htmlFor="bodyShot1" className={`${hasError('bodyShot1') ? 'text-destructive' : ''}`}>
-                    Body Shot 1*
-                  </Label>
-                  <Input
-                    id="bodyShot1"
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => handleFileChange('bodyShot1', e.target.files)}
-                    className={hasError('bodyShot1') ? 'border-destructive' : ''}
-                  />
-                  {formData.bodyShot1 && (
-                    <p className="text-xs text-bloom-muted">File selected (Base64)</p>
-                  )}
-                  {getErrorMessage('bodyShot1') && (
-                    <p className="text-xs text-destructive">{getErrorMessage('bodyShot1')}</p>
-                  )}
+                  <Label htmlFor="bodyShot1" className={`${hasError('bodyShot1') ? 'text-destructive' : ''}`}>Body Shot 1*</Label>
+                  <div className={`flex items-center justify-center w-full h-48 border-2 border-dashed rounded-md cursor-pointer bg-gray-50 hover:bg-gray-100 transition-all ${hasError('bodyShot1') ? 'border-destructive' : ''}`}>
+                    <label htmlFor="bodyShot1" className="flex flex-col items-center justify-center w-full h-full cursor-pointer">
+                      {formData.bodyShot1 ? (
+                        <img src={formData.bodyShot1} alt="Body Shot 1 Preview" className="max-h-full max-w-full object-contain rounded-md" />
+                      ) : (
+                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                          <Upload className="w-8 h-8 mb-3 text-gray-400" />
+                          <p className="mb-2 text-sm text-gray-500"><span className="font-semibold">Click to upload</span> or drag and drop</p>
+                          <p className="text-xs text-gray-500">JPG, PNG (MAX. 2MB)</p>
+                        </div>
+                      )}
+                      <input
+                        id="bodyShot1"
+                        type="file"
+                        className="hidden"
+                        accept="image/jpeg,image/png"
+                        onChange={(e) => handleFileChange('bodyShot1', e.target.files)}
+                      />
+                    </label>
+                  </div>
+                  {getErrorMessage('bodyShot1') && <p className="text-xs text-destructive">{getErrorMessage('bodyShot1')}</p>}
                 </div>
-                
-                {/* Body Shot 2 */}
+
+                {/* Body Shot 2 (Optional) */}
                 <div className="space-y-2">
-                  <Label htmlFor="bodyShot2">
-                    Body Shot 2 (Optional)
-                  </Label>
-                  <Input
-                    id="bodyShot2"
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => handleFileChange('bodyShot2', e.target.files)}
-                  />
-                  {formData.bodyShot2 && (
-                    <p className="text-xs text-bloom-muted">File selected (Base64)</p>
-                  )}
+                  <Label htmlFor="bodyShot2">Body Shot 2 (Optional)</Label>
+                  <div className="flex items-center justify-center w-full h-48 border-2 border-dashed rounded-md cursor-pointer bg-gray-50 hover:bg-gray-100 transition-all">
+                    <label htmlFor="bodyShot2" className="flex flex-col items-center justify-center w-full h-full cursor-pointer">
+                      {formData.bodyShot2 ? (
+                        <img src={formData.bodyShot2} alt="Body Shot 2 Preview" className="max-h-full max-w-full object-contain rounded-md" />
+                      ) : (
+                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                          <Upload className="w-8 h-8 mb-3 text-gray-400" />
+                          <p className="mb-2 text-sm text-gray-500"><span className="font-semibold">Click to upload</span> or drag and drop</p>
+                          <p className="text-xs text-gray-500">JPG, PNG (MAX. 2MB)</p>
+                        </div>
+                      )}
+                      <input
+                        id="bodyShot2"
+                        type="file"
+                        className="hidden"
+                        accept="image/jpeg,image/png"
+                        onChange={(e) => handleFileChange('bodyShot2', e.target.files)}
+                      />
+                    </label>
+                  </div>
                 </div>
-                
-                {/* Additional Image 1 */}
+
+                {/* Additional Image 1 (Optional) */}
                 <div className="space-y-2">
-                  <Label htmlFor="additionalImage1">
-                    Additional Image 1 (Optional)
-                  </Label>
-                  <Input
-                    id="additionalImage1"
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => handleFileChange('additionalImage1', e.target.files)}
-                  />
-                  {formData.additionalImage1 && (
-                    <p className="text-xs text-bloom-muted">File selected (Base64)</p>
-                  )}
+                  <Label htmlFor="additionalImage1">Additional Image 1 (Optional)</Label>
+                  <div className="flex items-center justify-center w-full h-48 border-2 border-dashed rounded-md cursor-pointer bg-gray-50 hover:bg-gray-100 transition-all">
+                    <label htmlFor="additionalImage1" className="flex flex-col items-center justify-center w-full h-full cursor-pointer">
+                      {formData.additionalImage1 ? (
+                        <img src={formData.additionalImage1} alt="Additional Image 1 Preview" className="max-h-full max-w-full object-contain rounded-md" />
+                      ) : (
+                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                          <Upload className="w-8 h-8 mb-3 text-gray-400" />
+                          <p className="mb-2 text-sm text-gray-500"><span className="font-semibold">Click to upload</span> or drag and drop</p>
+                          <p className="text-xs text-gray-500">JPG, PNG (MAX. 2MB)</p>
+                        </div>
+                      )}
+                      <input
+                        id="additionalImage1"
+                        type="file"
+                        className="hidden"
+                        accept="image/jpeg,image/png"
+                        onChange={(e) => handleFileChange('additionalImage1', e.target.files)}
+                      />
+                    </label>
+                  </div>
                 </div>
-                
-                {/* Additional Image 2 */}
+
+                {/* Additional Image 2 (Optional) */}
                 <div className="space-y-2">
-                  <Label htmlFor="additionalImage2">
-                    Additional Image 2 (Optional)
-                  </Label>
-                  <Input
-                    id="additionalImage2"
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => handleFileChange('additionalImage2', e.target.files)}
-                  />
-                  {formData.additionalImage2 && (
-                    <p className="text-xs text-bloom-muted">File selected (Base64)</p>
-                  )}
+                  <Label htmlFor="additionalImage2">Additional Image 2 (Optional)</Label>
+                  <div className="flex items-center justify-center w-full h-48 border-2 border-dashed rounded-md cursor-pointer bg-gray-50 hover:bg-gray-100 transition-all">
+                    <label htmlFor="additionalImage2" className="flex flex-col items-center justify-center w-full h-full cursor-pointer">
+                      {formData.additionalImage2 ? (
+                        <img src={formData.additionalImage2} alt="Additional Image 2 Preview" className="max-h-full max-w-full object-contain rounded-md" />
+                      ) : (
+                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                          <Upload className="w-8 h-8 mb-3 text-gray-400" />
+                          <p className="mb-2 text-sm text-gray-500"><span className="font-semibold">Click to upload</span> or drag and drop</p>
+                          <p className="text-xs text-gray-500">JPG, PNG (MAX. 2MB)</p>
+                        </div>
+                      )}
+                      <input
+                        id="additionalImage2"
+                        type="file"
+                        className="hidden"
+                        accept="image/jpeg,image/png"
+                        onChange={(e) => handleFileChange('additionalImage2', e.target.files)}
+                      />
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>
           )}
-          
+
           {/* Terms & Conditions Section */}
           {currentSection === 'terms' && (
             <div className="space-y-6 animate-fade-in">
-              <div className="bg-gray-50 p-6 rounded-lg border">
-                <h3 className="font-semibold text-lg text-bloom-primary mb-4">General Terms and Conditions</h3>
-                <p className="text-sm text-bloom-muted mb-3">
-                  1. **Eligibility:** Participants must meet all specified eligibility criteria as outlined in the "Eligibility" section. Providing false information will result in immediate disqualification.<br />
-                  2. **Conduct:** All participants are expected to conduct themselves in a respectful and professional manner at all times, both online and offline. Any behavior deemed inappropriate or detrimental to the organization's reputation will lead to disqualification.<br />
-                  3. **Intellectual Property:** By participating, you grant Miss Bloom Global the right to use your submitted photos, videos, and personal statements for promotional and marketing purposes across all media channels.<br />
-                  4. **Confidentiality:** All proprietary information, strategies, and internal communications of Miss Bloom Global are strictly confidential and must not be disclosed to third parties.<br />
-                  5. **Travel:** Finalists must be available to travel internationally for the pageant finals. All travel and accommodation arrangements will be communicated in advance.<br />
-                  6. **Health & Safety:** Participants must be in good physical and mental health. Any pre-existing medical conditions must be disclosed to the organization.<br />
-                  7. **Disqualification:** Miss Bloom Global reserves the right to disqualify any participant who violates these terms and conditions, engages in unsportsmanlike conduct, or brings disrepute to the organization.<br />
-                  8. **Changes to Terms:** Miss Bloom Global reserves the right to modify these terms and conditions at any time. Participants will be notified of any significant changes.
-                </p>
+              <div className="bg-bloom-accent/30 p-4 rounded-md">
+                <h3 className="font-medium text-lg mb-4">Terms and Conditions for Miss Bloom Global Application</h3>
+                <ol className="list-decimal pl-5 space-y-2 text-sm">
+                  <li>By submitting this application, you agree to provide accurate and truthful information.</li>
+                  <li>All submitted photos must be your own and you grant Miss Bloom Global the right to use them for application review and promotional purposes if accepted.</li>
+                  <li>You understand that meeting eligibility requirements does not guarantee acceptance into the pageant.</li>
+                  <li>You agree to adhere to all rules, regulations, and schedules set forth by the Miss Bloom Global organization if you are selected as a participant.</li>
+                  <li>Personal data collected will be used solely for the purpose of the Miss Bloom Global pageant application and related activities.</li>
+                  <li>Miss Bloom Global reserves the right to verify any information provided in this application.</li>
+                  <li>Any false information or misrepresentation may lead to disqualification.</li>
+                  <li>You acknowledge that participation in the pageant may involve travel and public appearances.</li>
+                  <li>You agree to conduct yourself in a professional and respectful manner at all times during your involvement with Miss Bloom Global.</li>
+                  <li>All decisions made by the Miss Bloom Global judging panel and organization are final.</li>
+                </ol>
               </div>
-              
               <div className="flex items-start space-x-2">
                 <Checkbox
                   id="agreeTerms"
@@ -1414,26 +1379,19 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
                   onCheckedChange={(checked) => setAgreeTerms(checked === true)}
                   className={hasError('terms') ? 'border-destructive' : ''}
                 />
-                <label
-                  htmlFor="agreeTerms"
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  I have read and agree to the terms and conditions.*
+                <label htmlFor="agreeTerms" className="text-sm font-medium leading-tight peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                  I have read and agree to the terms and conditions.
                 </label>
               </div>
-              {getErrorMessage('terms') && (
-                <p className="text-xs text-destructive pl-6">{getErrorMessage('terms')}</p>
-              )}
+              {getErrorMessage('terms') && <p className="text-xs text-destructive pl-6">{getErrorMessage('terms')}</p>}
             </div>
           )}
-          
+
           {/* Personal Profile Section */}
           {currentSection === 'profile' && (
             <div className="space-y-6 animate-fade-in">
               <div className="space-y-2">
-                <Label htmlFor="bio" className={`${hasError('bio') ? 'text-destructive' : ''}`}>
-                  Bio* (Max 2500 characters)
-                </Label>
+                <Label htmlFor="bio" className={`${hasError('bio') ? 'text-destructive' : ''}`}>Tell us about yourself (max 2500 characters)*</Label>
                 <Textarea
                   id="bio"
                   value={formData.bio}
@@ -1441,36 +1399,25 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
                   onFocus={() => setFocused('bio')}
                   onBlur={() => setFocused(null)}
                   className={`min-h-[150px] transition-all ${focused === 'bio' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''} ${hasError('bio') ? 'border-destructive' : ''}`}
+                  maxLength={2500}
                 />
-                <div className="text-xs text-bloom-muted mt-1">
-                  Characters: {formData.bio.length}/2500
-                </div>
-                {getErrorMessage('bio') && (
-                  <p className="text-xs text-destructive">{getErrorMessage('bio')}</p>
-                )}
+                <p className="text-xs text-gray-500">{formData.bio.length} / 2500 characters</p>
+                {getErrorMessage('bio') && <p className="text-xs text-destructive">{getErrorMessage('bio')}</p>}
               </div>
-              
               <div className="space-y-2">
-                <Label htmlFor="socialMedia" className={`${hasError('socialMedia') ? 'text-destructive' : ''}`}>
-                  Social Media Handles* (e.g., Instagram: @yourhandle, Facebook: yourname)
-                </Label>
-                <Textarea
+                <Label htmlFor="socialMedia" className={`${hasError('socialMedia') ? 'text-destructive' : ''}`}>Social Media Handles (e.g., Instagram, Facebook, TikTok)*</Label>
+                <Input
                   id="socialMedia"
                   value={formData.socialMedia}
                   onChange={(e) => handleFieldChange('socialMedia', e.target.value)}
                   onFocus={() => setFocused('socialMedia')}
                   onBlur={() => setFocused(null)}
-                  className={`min-h-[100px] transition-all ${focused === 'socialMedia' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''} ${hasError('socialMedia') ? 'border-destructive' : ''}`}
+                  className={`transition-all ${focused === 'socialMedia' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''} ${hasError('socialMedia') ? 'border-destructive' : ''}`}
                 />
-                {getErrorMessage('socialMedia') && (
-                  <p className="text-xs text-destructive">{getErrorMessage('socialMedia')}</p>
-                )}
+                {getErrorMessage('socialMedia') && <p className="text-xs text-destructive">{getErrorMessage('socialMedia')}</p>}
               </div>
-              
               <div className="space-y-2">
-                <Label htmlFor="threeWords">
-                  Three Words to Describe Yourself
-                </Label>
+                <Label htmlFor="threeWords">Describe yourself in three words</Label>
                 <Input
                   id="threeWords"
                   value={formData.threeWords}
@@ -1480,11 +1427,8 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
                   className={`transition-all ${focused === 'threeWords' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''}`}
                 />
               </div>
-              
               <div className="space-y-2">
-                <Label htmlFor="hobbies">
-                  Hobbies & Interests
-                </Label>
+                <Label htmlFor="hobbies">Hobbies/Interests</Label>
                 <Textarea
                   id="hobbies"
                   value={formData.hobbies}
@@ -1494,11 +1438,8 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
                   className={`min-h-[100px] transition-all ${focused === 'hobbies' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''}`}
                 />
               </div>
-              
               <div className="space-y-2">
-                <Label htmlFor="pageantExperience">
-                  Previous Pageant Experience (if any)
-                </Label>
+                <Label htmlFor="pageantExperience">Pageant Experience (if any)</Label>
                 <Textarea
                   id="pageantExperience"
                   value={formData.pageantExperience}
@@ -1508,11 +1449,8 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
                   className={`min-h-[100px] transition-all ${focused === 'pageantExperience' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''}`}
                 />
               </div>
-              
               <div className="space-y-2">
-                <Label htmlFor="charity">
-                  Charity Work or Community Involvement
-                </Label>
+                <Label htmlFor="charity">Charity/Volunteer Work</Label>
                 <Textarea
                   id="charity"
                   value={formData.charity}
@@ -1522,11 +1460,8 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
                   className={`min-h-[100px] transition-all ${focused === 'charity' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''}`}
                 />
               </div>
-              
               <div className="space-y-2">
-                <Label htmlFor="hearAboutUs">
-                  How did you hear about Miss Bloom Global?
-                </Label>
+                <Label htmlFor="hearAboutUs">How did you hear about us?</Label>
                 <Input
                   id="hearAboutUs"
                   value={formData.hearAboutUs}
@@ -1538,14 +1473,12 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
               </div>
             </div>
           )}
-          
+
           {/* Country Information Section */}
           {currentSection === 'countryInfo' && (
             <div className="space-y-6 animate-fade-in">
               <div className="space-y-2">
-                <Label htmlFor="countryOverview" className={`${hasError('countryOverview') ? 'text-destructive' : ''}`}>
-                  Overview of Your Country* (Max 2500 characters)
-                </Label>
+                <Label htmlFor="countryOverview" className={`${hasError('countryOverview') ? 'text-destructive' : ''}`}>Brief overview of your country (max 2500 characters)*</Label>
                 <Textarea
                   id="countryOverview"
                   value={formData.countryOverview}
@@ -1553,19 +1486,13 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
                   onFocus={() => setFocused('countryOverview')}
                   onBlur={() => setFocused(null)}
                   className={`min-h-[150px] transition-all ${focused === 'countryOverview' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''} ${hasError('countryOverview') ? 'border-destructive' : ''}`}
+                  maxLength={2500}
                 />
-                <div className="text-xs text-bloom-muted mt-1">
-                  Characters: {formData.countryOverview.length}/2500
-                </div>
-                {getErrorMessage('countryOverview') && (
-                  <p className="text-xs text-destructive">{getErrorMessage('countryOverview')}</p>
-                )}
+                <p className="text-xs text-gray-500">{formData.countryOverview.length} / 2500 characters</p>
+                {getErrorMessage('countryOverview') && <p className="text-xs text-destructive">{getErrorMessage('countryOverview')}</p>}
               </div>
-              
               <div className="space-y-2">
-                <Label htmlFor="culturalInfo" className={`${hasError('culturalInfo') ? 'text-destructive' : ''}`}>
-                  Cultural and Custom Information* (Max 2500 characters)
-                </Label>
+                <Label htmlFor="culturalInfo" className={`${hasError('culturalInfo') ? 'text-destructive' : ''}`}>Key cultural aspects or traditions of your country (max 2500 characters)*</Label>
                 <Textarea
                   id="culturalInfo"
                   value={formData.culturalInfo}
@@ -1573,80 +1500,40 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
                   onFocus={() => setFocused('culturalInfo')}
                   onBlur={() => setFocused(null)}
                   className={`min-h-[150px] transition-all ${focused === 'culturalInfo' ? 'border-bloom-gold ring-1 ring-bloom-gold/20' : ''} ${hasError('culturalInfo') ? 'border-destructive' : ''}`}
+                  maxLength={2500}
                 />
-                <div className="text-xs text-bloom-muted mt-1">
-                  Characters: {formData.culturalInfo.length}/2500
-                </div>
-                {getErrorMessage('culturalInfo') && (
-                  <p className="text-xs text-destructive">{getErrorMessage('culturalInfo')}</p>
-                )}
+                <p className="text-xs text-gray-500">{formData.culturalInfo.length} / 2500 characters</p>
+                {getErrorMessage('culturalInfo') && <p className="text-xs text-destructive">{getErrorMessage('culturalInfo')}</p>}
               </div>
             </div>
           )}
-          
+
           {/* Review & Submit Section */}
           {currentSection === 'review' && (
             <div className="space-y-6 animate-fade-in">
-              <h3 className="text-lg font-semibold text-bloom-primary mb-4">Review Your Application</h3>
-              <p className="text-sm text-bloom-muted mb-6">
-                Please review all the information you have provided before submitting your application.
-                Ensure all required fields are filled and all eligibility criteria are met.
-              </p>
-              
-              <div className="space-y-4">
-                {formSections.filter(s => s.id !== 'review').map(section => (
-                  <div key={section.id} className="border p-4 rounded-md bg-gray-50">
-                    <h4 className="font-medium text-bloom-primary mb-2">{section.title}</h4>
-                    <ul className="text-sm text-bloom-muted list-disc pl-5">
-                      {Object.keys(formData).map((key) => {
-                        if (
-                          (section.id === 'contact' && ['firstName', 'lastName', 'email', 'phone', 'country', 'city'].includes(key)) ||
-                          (section.id === 'personal' && ['ethnicity', 'representCountry', 'height', 'weight'].includes(key)) ||
-                          (section.id === 'background' && ['schoolAttended', 'fieldOfStudy', 'highestEducation', 'experience', 'education', 'skills'].includes(key)) ||
-                          (section.id === 'motivation' && ['motivation', 'goals'].includes(key)) ||
-                          (section.id === 'business' && ['strategy'].includes(key)) ||
-                          (section.id === 'profile' && ['bio', 'socialMedia', 'threeWords'].includes(key)) ||
-                          (section.id === 'countryInfo' && ['countryOverview', 'culturalInfo'].includes(key)) ||
-                          (section.id === 'eligibility' && ['dateOfBirth', 'isEligible', 'hasValidPassport', 'canTravel', 'isGoodHealth', 'willFollowRules'].includes(key))
-                        ) {
-                          const value = formData[key as keyof ApplicationFormData];
-                          let displayValue = '';
-                          if (typeof value === 'boolean') {
-                            displayValue = value ? 'Yes' : 'No';
-                          } else if (typeof value === 'string' && value.startsWith('data:image/')) {
-                            displayValue = `Image data present (Base64)`; // Indicate Base64 image
-                          } else {
-                            displayValue = value?.toString() || 'N/A';
-                          }
-                          return (
-                            <li key={key}>
-                              <span className="font-semibold">{key.replace(/([A-Z])/g, ' $1').toLowerCase()}:</span> {displayValue}
-                            </li>
-                          );
-                        }
-                        return null;
-                      })}
-                      {section.id === 'terms' && (
-                        <li><span className="font-semibold">Agreed to Terms:</span> {agreeTerms ? 'Yes' : 'No'}</li>
-                      )}
-                      {section.id === 'photos' && (
-                        <>
-                          <li><span className="font-semibold">Head Shot 1:</span> {formData.headShot1 ? 'Image uploaded' : 'Not provided'}</li>
-                          <li><span className="font-semibold">Head Shot 2:</span> {formData.headShot2 ? 'Image uploaded' : 'Not provided'}</li>
-                          <li><span className="font-semibold">Body Shot 1:</span> {formData.bodyShot1 ? 'Image uploaded' : 'Not provided'}</li>
-                          <li><span className="font-semibold">Body Shot 2:</span> {formData.bodyShot2 ? 'Image uploaded' : 'Not provided'}</li>
-                          <li><span className="font-semibold">Additional Image 1:</span> {formData.additionalImage1 ? 'Image uploaded' : 'Not provided'}</li>
-                          <li><span className="font-semibold">Additional Image 2:</span> {formData.additionalImage2 ? 'Image uploaded' : 'Not provided'}</li>
-                        </>
-                      )}
-                    </ul>
-                  </div>
-                ))}
+              <p className="text-sm text-gray-600">Please review all your information carefully before final submission.</p>
+              <div className="space-y-4 text-sm">
+                {Object.entries(formData).map(([key, value]) => {
+                  // Skip image data for cleaner review, or display if you prefer
+                  if (key.includes('Shot') || key.includes('Image')) {
+                    return value ? (
+                      <div key={key} className="flex flex-col">
+                        <span className="font-medium capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}:</span>
+                        <img src={value as string} alt={key} className="w-32 h-32 object-cover rounded-md mt-2" />
+                      </div>
+                    ) : null;
+                  }
+                  return (
+                    <div key={key} className="flex flex-col">
+                      <span className="font-medium capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}:</span>
+                      <span>{typeof value === 'boolean' ? (value ? 'Yes' : 'No') : value || 'N/A'}</span>
+                    </div>
+                  );
+                })}
               </div>
-              
               {errors.length > 0 && (
-                <div className="bg-red-50 border border-destructive text-destructive p-4 rounded-md">
-                  <p className="font-medium mb-2">Please correct the following errors:</p>
+                <div className="bg-destructive/10 border border-destructive text-destructive p-3 rounded-md">
+                  <p className="font-medium mb-2">Errors to fix:</p>
                   <ul className="list-disc pl-5 text-sm">
                     {errors.map((error, index) => (
                       <li key={index}>{error.message}</li>
@@ -1663,25 +1550,33 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ onSubmitSuccess, onBa
             variant="outline"
             onClick={handlePrevious}
             disabled={currentSection === formSections[0].id}
+            className="flex items-center text-bloom-primary hover:bg-bloom-primary hover:text-white"
           >
             <ChevronLeft size={16} className="mr-2" /> Previous
           </Button>
-          
-          {currentSection !== formSections[formSections.length - 1].id ? (
-            <Button onClick={handleNext}>
-              Next <ChevronRight size={16} className="ml-2" />
-            </Button>
-          ) : (
-            <Button onClick={handleSubmit} disabled={isSubmitting}>
+          {currentSection === formSections[formSections.length - 1].id ? (
+            <Button
+              onClick={handleSubmit}
+              disabled={isSubmitting || errors.length > 0 || !agreeTerms}
+              className="flex items-center bg-bloom-gold text-white hover:bg-bloom-gold/90"
+            >
               {isSubmitting ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Submitting...
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Submitting...
                 </>
               ) : (
                 <>
                   Submit Application <Check size={16} className="ml-2" />
                 </>
               )}
+            </Button>
+          ) : (
+            <Button
+              onClick={handleNext}
+              className="flex items-center bg-bloom-primary text-white hover:bg-bloom-primary/90"
+            >
+              Next <ChevronRight size={16} className="ml-2" />
             </Button>
           )}
         </CardFooter>
